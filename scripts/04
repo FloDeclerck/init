@@ -1,0 +1,13 @@
+#!/bin/bash 
+# crontab -e
+# then
+# 0 0 * * * /path/to/script.sh
+
+if [ ! -f $HOME/crontab.md5 ]
+then
+	md5sum /etc/crontab > $HOME/crontab.md5
+elif ! md5sum -c $HOME/crontab.md5
+then
+	echo -e "/etc/crontab modified" | mail -s "/etc/crontab modified" root
+	md5sum /etc/crontab > $HOME/crontab.md5
+fi
